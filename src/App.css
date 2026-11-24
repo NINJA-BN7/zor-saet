@@ -1,0 +1,1939 @@
+/* ==========================================================================
+   OZIMIZSTROY - PREMIUM E-COMMERCE STYLING SYSTEM
+   Senior Frontend Architecture
+   Mavzu: Zamonaviy Maishiy Texnika va Qurilish Mollari Do'koni
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS O'ZGARUVCHILARI (DESIGN TOKENS & SYSTEM VARIABLES)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Asosiy Ranglar Palitrasi */
+  --oz-primary: #1e40af;            /* Chuqur ko'k (Royal Blue) */
+  --oz-primary-hover: #1d4ed8;      /* Ochiqroq ko'k */
+  --oz-primary-light: #eff6ff;      /* Ultra yumshoq ko'k fon */
+  --oz-primary-glow: rgba(37, 99, 235, 0.25);
+
+  --oz-accent: #f97316;             /* Energetik to'q sariq (Orange) */
+  --oz-accent-hover: #ea580c;
+  --oz-accent-light: #fff7ed;
+  --oz-accent-glow: rgba(249, 115, 22, 0.3);
+
+  --oz-secondary: #0f172a;          /* To'q Slate / Tungi rang */
+  --oz-surface: #ffffff;            /* Oq yuza */
+  --oz-surface-alt: #f8fafc;        /* Ikkinchi darajali fon */
+  --oz-surface-elevated: #ffffff;
+  --oz-border: #e2e8f0;             /* Neytral chegara */
+  --oz-border-light: #f1f5f9;
+
+  /* Matn Ranglari */
+  --oz-text-primary: #0f172a;       /* Asosiy matn */
+  --oz-text-secondary: #475569;     /* Tavsiflar va pastki matn */
+  --oz-text-muted: #94a3b8;         /* Yordamchi / nofaol matn */
+  --oz-text-inverse: #ffffff;
+
+  /* Status va Badge Ranglari */
+  --oz-success: #10b981;
+  --oz-success-light: #ecfdf5;
+  --oz-warning: #f59e0b;
+  --oz-warning-light: #fffbeb;
+  --oz-danger: #ef4444;
+  --oz-danger-light: #fef2f2;
+  --oz-info: #06b6d4;
+  --oz-info-light: #ecfeff;
+
+  /* Glassmorphism va Soya Toksiqlari */
+  --oz-glass-bg: rgba(255, 255, 255, 0.85);
+  --oz-glass-border: rgba(255, 255, 255, 0.6);
+  --oz-glass-blur: blur(16px);
+  --oz-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --oz-shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --oz-shadow-md: 0 6px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --oz-shadow-lg: 0 14px 28px -4px rgba(15, 23, 42, 0.1), 0 6px 12px -2px rgba(15, 23, 42, 0.05);
+  --oz-shadow-xl: 0 24px 48px -10px rgba(15, 23, 42, 0.14), 0 12px 20px -4px rgba(15, 23, 42, 0.06);
+  --oz-shadow-glow: 0 0 25px rgba(37, 99, 235, 0.35);
+
+  /* Radius va Tranzitlar */
+  --oz-radius-sm: 8px;
+  --oz-radius-md: 12px;
+  --oz-radius-lg: 18px;
+  --oz-radius-xl: 24px;
+  --oz-radius-full: 9999px;
+
+  --oz-transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --oz-transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --oz-transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --oz-transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Tipografiya */
+  --oz-font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --oz-font-display: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   2. UMUMIY FORMAT VA RESET
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--oz-font-main);
+  background-color: var(--oz-surface-alt);
+  color: var(--oz-text-primary);
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Maxsus Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: var(--oz-radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Konteyner */
+.oz-container {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --------------------------------------------------------------------------
+   3. ICONS VA YORDAMCHI ELEMENTLAR
+   -------------------------------------------------------------------------- */
+.oz-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: transform var(--oz-transition-normal), color var(--oz-transition-normal);
+}
+
+.oz-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: oz-spin 0.65s linear infinite;
+  display: inline-block;
+}
+
+@keyframes oz-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   4. HEADER: TOPBAR, ASOSIY QISM VA NAVIGATSIYA
+   -------------------------------------------------------------------------- */
+.oz-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--oz-surface);
+  box-shadow: var(--oz-shadow-sm);
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-header.oz-header-scrolled {
+  background: var(--oz-glass-bg);
+  backdrop-filter: var(--oz-glass-blur);
+  box-shadow: var(--oz-shadow-md);
+}
+
+/* Topbar */
+.oz-topbar {
+  background: var(--oz-secondary);
+  color: #94a3b8;
+  font-size: 0.825rem;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.oz-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.oz-topbar-left, .oz-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.oz-topbar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--oz-transition-fast);
+}
+
+.oz-topbar-item:hover {
+  color: var(--oz-surface);
+}
+
+.oz-topbar-highlight {
+  color: var(--oz-accent);
+  font-weight: 600;
+}
+
+/* Asosiy Navbar */
+.oz-nav-main {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--oz-border);
+}
+
+.oz-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Brand Logo */
+.oz-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--oz-font-display);
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--oz-secondary);
+}
+
+.oz-logo-icon {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--oz-primary), var(--oz-accent));
+  border-radius: var(--oz-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px var(--oz-primary-glow);
+  transform: rotate(-3deg);
+  transition: transform var(--oz-transition-spring);
+}
+
+.oz-logo:hover .oz-logo-icon {
+  transform: rotate(0deg) scale(1.08);
+}
+
+.oz-logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.oz-logo-text span:first-child {
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--oz-secondary) 40%, var(--oz-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.oz-logo-subtitle {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--oz-accent);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Qidiruv Qutisi (Search Bar with Live Dropdown) */
+.oz-search-box {
+  flex: 1;
+  max-width: 620px;
+  position: relative;
+}
+
+.oz-search-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.oz-search-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 52px 0 20px;
+  border: 2px solid var(--oz-border);
+  border-radius: var(--oz-radius-full);
+  background: var(--oz-surface-alt);
+  font-size: 0.95rem;
+  color: var(--oz-text-primary);
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-search-input:focus {
+  background: var(--oz-surface);
+  border-color: var(--oz-primary);
+  box-shadow: 0 0 0 4px var(--oz-primary-glow);
+}
+
+.oz-search-btn {
+  position: absolute;
+  right: 6px;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--oz-radius-full);
+  background: var(--oz-primary);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--oz-transition-fast), transform var(--oz-transition-fast);
+}
+
+.oz-search-btn:hover {
+  background: var(--oz-primary-hover);
+  transform: scale(1.05);
+}
+
+/* Canli Qidiruv Natijalari (Dropdown) */
+.oz-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--oz-surface);
+  border: 1px solid var(--oz-border);
+  border-radius: var(--oz-radius-lg);
+  box-shadow: var(--oz-shadow-xl);
+  z-index: 200;
+  overflow: hidden;
+  animation: oz-fade-in-up 0.25s ease-out;
+}
+
+.oz-search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background var(--oz-transition-fast);
+}
+
+.oz-search-result-item:hover {
+  background: var(--oz-surface-alt);
+}
+
+.oz-search-result-thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: var(--oz-radius-sm);
+  background: #f8fafc;
+}
+
+.oz-search-result-info h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.oz-search-result-price {
+  font-size: 0.825rem;
+  color: var(--oz-primary);
+  font-weight: 700;
+}
+
+/* Header Aksiyalari (Wishlist, Compare, Cart) */
+.oz-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.oz-header-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: var(--oz-radius-md);
+  border: none;
+  background: transparent;
+  color: var(--oz-text-secondary);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-header-btn:hover {
+  background: var(--oz-primary-light);
+  color: var(--oz-primary);
+  transform: translateY(-2px);
+}
+
+.oz-header-btn .oz-icon {
+  margin-bottom: 2px;
+}
+
+.oz-badge-count {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--oz-radius-full);
+  background: var(--oz-accent);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px var(--oz-accent-glow);
+  animation: oz-scale-bounce 0.35s ease;
+}
+
+.oz-cart-preview-badge {
+  background: var(--oz-primary);
+}
+
+/* Kategoriyalar Menyusi Paneli */
+.oz-nav-categories {
+  padding: 10px 0;
+  background: var(--oz-surface);
+  border-bottom: 1px solid var(--oz-border-light);
+}
+
+.oz-cat-scroll-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.oz-cat-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.oz-cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: var(--oz-radius-full);
+  background: var(--oz-surface-alt);
+  color: var(--oz-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid var(--oz-border);
+  cursor: pointer;
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-cat-pill:hover, .oz-cat-pill.oz-active {
+  background: var(--oz-primary);
+  color: white;
+  border-color: var(--oz-primary);
+  box-shadow: 0 4px 12px var(--oz-primary-glow);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   5. HERO BANNER SLAYDERI VA REKLAMA BLOKI
+   -------------------------------------------------------------------------- */
+.oz-hero-section {
+  padding: 24px 0 16px;
+}
+
+.oz-hero-grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 20px;
+}
+
+.oz-hero-slider {
+  position: relative;
+  border-radius: var(--oz-radius-xl);
+  overflow: hidden;
+  height: 440px;
+  box-shadow: var(--oz-shadow-lg);
+}
+
+.oz-hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(1.03);
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.oz-hero-slide.oz-slide-active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.oz-hero-slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.92) 0%, rgba(15, 23, 42, 0.75) 50%, rgba(15, 23, 42, 0.2) 100%);
+}
+
+.oz-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 48px;
+  max-width: 600px;
+  color: white;
+}
+
+.oz-hero-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--oz-accent);
+  color: white;
+  border-radius: var(--oz-radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px var(--oz-accent-glow);
+}
+
+.oz-hero-title {
+  font-family: var(--oz-font-display);
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.oz-hero-desc {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.oz-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: var(--oz-primary);
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--oz-radius-full);
+  box-shadow: 0 6px 20px var(--oz-primary-glow);
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-hero-cta:hover {
+  background: var(--oz-primary-hover);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px var(--oz-primary-glow);
+}
+
+/* Slayder Navigatsiya nuqtalari */
+.oz-hero-nav {
+  position: absolute;
+  bottom: 24px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+
+.oz-hero-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--oz-radius-full);
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-hero-dot.oz-active {
+  width: 32px;
+  background: var(--oz-accent);
+}
+
+/* Hero Yonidagi Mini Bannerlar */
+.oz-hero-sidecards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.oz-sidecard {
+  position: relative;
+  flex: 1;
+  border-radius: var(--oz-radius-xl);
+  overflow: hidden;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--oz-shadow-md);
+  transition: transform var(--oz-transition-smooth);
+}
+
+.oz-sidecard:hover {
+  transform: translateY(-4px);
+}
+
+.oz-sidecard-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.85) 100%);
+}
+
+.oz-sidecard-content {
+  position: relative;
+  z-index: 2;
+}
+
+.oz-sidecard-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.oz-sidecard-sub {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  margin-bottom: 12px;
+}
+
+.oz-sidecard-link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--oz-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   6. AFZALLIKLAR VA ISHONCH BANNERI (FEATURES STRIP)
+   -------------------------------------------------------------------------- */
+.oz-features-strip {
+  padding: 24px 0;
+}
+
+.oz-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.oz-feature-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--oz-surface);
+  border: 1px solid var(--oz-border);
+  border-radius: var(--oz-radius-lg);
+  box-shadow: var(--oz-shadow-sm);
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--oz-shadow-md);
+  border-color: var(--oz-primary-hover);
+}
+
+.oz-feature-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--oz-radius-md);
+  background: var(--oz-primary-light);
+  color: var(--oz-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.oz-feature-card:hover .oz-feature-icon-box {
+  background: var(--oz-primary);
+  color: white;
+}
+
+.oz-feature-texts h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.oz-feature-texts p {
+  font-size: 0.8rem;
+  color: var(--oz-text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   7. TEZKOR AKSIYA VA TIKING TIMER (FLASH DEALS)
+   -------------------------------------------------------------------------- */
+.oz-flash-section {
+  padding: 30px 0;
+}
+
+.oz-flash-header {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  padding: 20px 28px;
+  border-radius: var(--oz-radius-xl) var(--oz-radius-xl) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.oz-flash-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.oz-flash-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--oz-danger);
+  padding: 6px 14px;
+  border-radius: var(--oz-radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: oz-pulse-glow 1.5s infinite alternate;
+}
+
+@keyframes oz-pulse-glow {
+  from { box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+  to { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+}
+
+.oz-flash-timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.oz-timer-block {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 6px 10px;
+  border-radius: var(--oz-radius-sm);
+  font-family: var(--oz-font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 40px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.oz-timer-sep {
+  font-weight: 800;
+  color: var(--oz-accent);
+}
+
+/* --------------------------------------------------------------------------
+   8. KATALOG TOOLBAR, FILTRLAR VA GRID
+   -------------------------------------------------------------------------- */
+.oz-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.oz-section-title-wrap h2 {
+  font-family: var(--oz-font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.oz-section-title-wrap p {
+  color: var(--oz-text-secondary);
+  font-size: 0.925rem;
+  margin-top: 4px;
+}
+
+.oz-catalog-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--oz-surface);
+  padding: 8px 16px;
+  border: 1px solid var(--oz-border);
+  border-radius: var(--oz-radius-lg);
+  box-shadow: var(--oz-shadow-xs);
+}
+
+.oz-sort-select {
+  padding: 8px 14px;
+  border-radius: var(--oz-radius-md);
+  border: 1px solid var(--oz-border);
+  background: var(--oz-surface-alt);
+  color: var(--oz-text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Mahsulotlar Gridi */
+.oz-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+  gap: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   9. PRODUCT CARD ASOSIY USLUBI (3D TILT VA ZAMONAVIY UI)
+   -------------------------------------------------------------------------- */
+.oz-product-card {
+  position: relative;
+  background: var(--oz-surface);
+  border-radius: var(--oz-radius-xl);
+  border: 1px solid var(--oz-border);
+  box-shadow: var(--oz-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow var(--oz-transition-normal), border-color var(--oz-transition-normal);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.oz-product-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: var(--oz-shadow-xl);
+}
+
+.oz-product-card.oz-out-of-stock {
+  opacity: 0.75;
+  filter: grayscale(0.2);
+}
+
+/* Card Header (Yorliqlar va Tezkor Aksiyalar) */
+.oz-card-header {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.oz-badge-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.oz-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--oz-radius-full);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.oz-badge-discount {
+  background: var(--oz-danger);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+.oz-badge-bestseller {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.oz-badge-new {
+  background: var(--oz-primary);
+  color: white;
+}
+
+.oz-badge-energy {
+  background: #10b981;
+  color: white;
+}
+
+/* Floating Actions: Sevimlilar, Taqqoslash, Ko'rish */
+.oz-actions-floating {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.oz-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--oz-radius-full);
+  background: var(--oz-glass-bg);
+  backdrop-filter: var(--oz-glass-blur);
+  border: 1px solid var(--oz-border);
+  box-shadow: var(--oz-shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--oz-text-secondary);
+  cursor: pointer;
+  transition: all var(--oz-transition-spring);
+}
+
+.oz-action-btn:hover {
+  transform: scale(1.15);
+  background: var(--oz-surface);
+  color: var(--oz-primary);
+  box-shadow: var(--oz-shadow-md);
+}
+
+.oz-action-btn.oz-liked {
+  color: #ef4444;
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+
+.oz-action-btn.oz-compared {
+  color: #f59e0b;
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+/* Galereya va Slayder */
+.oz-gallery-container {
+  position: relative;
+  width: 100%;
+  padding-top: 80%; /* 4:3 nisbat */
+  background: #ffffff;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.oz-image-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.oz-main-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.oz-product-card:hover .oz-main-image {
+  transform: scale(1.06);
+}
+
+.oz-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--oz-radius-full);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--oz-border);
+  box-shadow: var(--oz-shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--oz-transition-fast);
+  z-index: 4;
+}
+
+.oz-product-card:hover .oz-slider-arrow {
+  opacity: 1;
+}
+
+.oz-slider-arrow.oz-prev { left: 10px; }
+.oz-slider-arrow.oz-next { right: 10px; }
+
+.oz-dots-container {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 4;
+}
+
+.oz-dot {
+  width: 18px;
+  height: 3.5px;
+  border-radius: var(--oz-radius-full);
+  background: #e2e8f0;
+  border: none;
+  cursor: pointer;
+  transition: all var(--oz-transition-fast);
+}
+
+.oz-dot.oz-active {
+  background: var(--oz-primary);
+  width: 26px;
+}
+
+/* Card Body */
+.oz-card-body {
+  padding: 16px 18px 8px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.oz-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  margin-bottom: 4px;
+}
+
+.oz-brand-name {
+  font-weight: 700;
+  color: var(--oz-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.oz-model-code {
+  color: var(--oz-text-muted);
+}
+
+.oz-product-title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 8px;
+  height: 2.7em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.oz-product-title a:hover {
+  color: var(--oz-primary);
+}
+
+/* Reyting Qatori */
+.oz-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+
+.oz-stars-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.oz-star-filled {
+  color: #f59e0b;
+}
+
+.oz-rating-score {
+  font-weight: 700;
+  color: var(--oz-text-primary);
+}
+
+.oz-reviews-count {
+  color: var(--oz-text-muted);
+}
+
+/* Mini Specs */
+.oz-specs-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.oz-spec-chip {
+  background: var(--oz-surface-alt);
+  border: 1px solid var(--oz-border-light);
+  padding: 3px 8px;
+  border-radius: var(--oz-radius-sm);
+  font-size: 0.72rem;
+  color: var(--oz-text-secondary);
+}
+
+.oz-spec-chip strong {
+  color: var(--oz-text-primary);
+  margin-left: 2px;
+}
+
+/* Ranglar Tanlagich */
+.oz-colors-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+}
+
+.oz-picker-label em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--oz-text-primary);
+}
+
+.oz-color-swatches {
+  display: flex;
+  gap: 6px;
+}
+
+.oz-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px var(--oz-border);
+  cursor: pointer;
+  transition: transform var(--oz-transition-fast), box-shadow var(--oz-transition-fast);
+}
+
+.oz-swatch:hover, .oz-swatch.oz-swatch-selected {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 2px var(--oz-primary);
+}
+
+/* Nasiya / Muddatli to'lov qutisi */
+.oz-installment-box {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 1px solid #fde68a;
+  border-radius: var(--oz-radius-md);
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+
+.oz-installment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.oz-installment-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #92400e;
+  text-transform: uppercase;
+}
+
+.oz-months-switch {
+  display: flex;
+  gap: 4px;
+}
+
+.oz-month-btn {
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #78350f;
+  cursor: pointer;
+  transition: all var(--oz-transition-fast);
+}
+
+.oz-month-btn.oz-active {
+  background: #f59e0b;
+  color: white;
+}
+
+.oz-monthly-calc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #78350f;
+}
+
+.oz-monthly-calc strong {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #b45309;
+}
+
+/* Ombor Qoldig'i (Stock Progress) */
+.oz-stock-status {
+  margin-bottom: 14px;
+}
+
+.oz-stock-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.oz-stock-green { color: #059669; }
+.oz-stock-yellow { color: #d97706; }
+.oz-stock-red { color: #dc2626; }
+
+.oz-progress-bar-bg {
+  width: 100%;
+  height: 4.5px;
+  background: #f1f5f9;
+  border-radius: var(--oz-radius-full);
+  overflow: hidden;
+}
+
+.oz-progress-bar-fill {
+  height: 100%;
+  background: #10b981;
+  border-radius: var(--oz-radius-full);
+  transition: width 0.6s ease;
+}
+
+.oz-progress-bar-fill.oz-progress-warning {
+  background: #f59e0b;
+}
+
+/* Narxlar */
+.oz-price-container {
+  margin-bottom: 12px;
+}
+
+.oz-price-values {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.oz-current-price {
+  font-family: var(--oz-font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--oz-secondary);
+}
+
+.oz-old-price {
+  font-size: 0.88rem;
+  color: var(--oz-text-muted);
+  text-decoration: line-through;
+}
+
+.oz-saving-note {
+  font-size: 0.72rem;
+  color: var(--oz-danger);
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+/* Perk teglari */
+.oz-perks-row {
+  display: flex;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--oz-border);
+  font-size: 0.72rem;
+  color: var(--oz-text-secondary);
+}
+
+.oz-perk {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.oz-perk .oz-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--oz-primary);
+}
+
+/* Card Footer: Soni, Savat va Xarid tugmalari */
+.oz-card-footer {
+  padding: 12px 18px 16px;
+  background: var(--oz-surface-alt);
+  border-top: 1px solid var(--oz-border-light);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Stepper */
+.oz-quantity-stepper {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--oz-border);
+  border-radius: var(--oz-radius-md);
+  overflow: hidden;
+  height: 40px;
+}
+
+.oz-step-btn {
+  width: 28px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--oz-text-secondary);
+  transition: background var(--oz-transition-fast);
+}
+
+.oz-step-btn:hover:not(:disabled) {
+  background: var(--oz-surface-alt);
+  color: var(--oz-primary);
+}
+
+.oz-step-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.oz-quantity-value {
+  width: 28px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Savatga qo'shish */
+.oz-btn-add-cart {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--oz-radius-md);
+  border: none;
+  background: var(--oz-primary);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px var(--oz-primary-glow);
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-btn-add-cart:hover:not(:disabled) {
+  background: var(--oz-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px var(--oz-primary-glow);
+}
+
+.oz-btn-add-cart:disabled {
+  background: #cbd5e1;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.oz-btn-add-cart.oz-btn-success {
+  background: var(--oz-success);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Tezkor Xarid */
+.oz-btn-quick-buy {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: var(--oz-radius-md);
+  border: 1px solid #fed7aa;
+  background: #fff7ed;
+  color: #ea580c;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all var(--oz-transition-fast);
+}
+
+.oz-btn-quick-buy:hover:not(:disabled) {
+  background: var(--oz-accent);
+  color: white;
+  border-color: var(--oz-accent);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   10. MODAL VA DRAWERLAR (SAVAT, SEVIMLILAR, TAQQOSLASH, TEZKOR KO'RISH)
+   -------------------------------------------------------------------------- */
+.oz-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: oz-fade-in 0.25s ease-out;
+}
+
+/* Drawer (O'ngdan chiquvchi oyna - Savat va Sevimlilar uchun) */
+.oz-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 460px;
+  background: var(--oz-surface);
+  box-shadow: var(--oz-shadow-xl);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  animation: oz-slide-left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes oz-slide-left {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.oz-drawer-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--oz-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.oz-drawer-title {
+  font-family: var(--oz-font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.oz-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--oz-radius-full);
+  border: 1px solid var(--oz-border);
+  background: var(--oz-surface-alt);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--oz-transition-fast);
+}
+
+.oz-close-btn:hover {
+  background: var(--oz-danger);
+  color: white;
+  border-color: var(--oz-danger);
+}
+
+.oz-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.oz-cart-item {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--oz-border-light);
+}
+
+.oz-cart-item-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--oz-radius-md);
+  background: #f8fafc;
+}
+
+.oz-cart-item-info {
+  flex: 1;
+}
+
+.oz-cart-item-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.oz-cart-item-price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--oz-primary);
+  margin-bottom: 6px;
+}
+
+.oz-drawer-footer {
+  padding: 20px 24px;
+  background: var(--oz-surface-alt);
+  border-top: 1px solid var(--oz-border);
+}
+
+.oz-cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.oz-btn-checkout {
+  width: 100%;
+  padding: 14px;
+  background: var(--oz-primary);
+  color: white;
+  border: none;
+  border-radius: var(--oz-radius-lg);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--oz-primary-glow);
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-btn-checkout:hover {
+  background: var(--oz-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Quick View Modal & Checkout Modal */
+.oz-modal-box {
+  background: var(--oz-surface);
+  border-radius: var(--oz-radius-xl);
+  width: 100%;
+  max-width: 840px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--oz-shadow-xl);
+  position: relative;
+  animation: oz-scale-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes oz-scale-up {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.oz-modal-close-top {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+}
+
+.oz-quickview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+  padding: 36px;
+}
+
+.oz-quickview-img {
+  width: 100%;
+  height: 380px;
+  object-fit: contain;
+  background: #f8fafc;
+  border-radius: var(--oz-radius-lg);
+  padding: 20px;
+}
+
+/* Buyurtma Berish Formasi */
+.oz-checkout-form {
+  padding: 32px;
+}
+
+.oz-form-group {
+  margin-bottom: 18px;
+}
+
+.oz-form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.oz-form-input, .oz-form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--oz-radius-md);
+  border: 1px solid var(--oz-border);
+  font-size: 0.95rem;
+  transition: border var(--oz-transition-fast);
+}
+
+.oz-form-input:focus, .oz-form-textarea:focus {
+  border-color: var(--oz-primary);
+  box-shadow: 0 0 0 3px var(--oz-primary-glow);
+}
+
+.oz-payment-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.oz-payment-pill {
+  border: 2px solid var(--oz-border);
+  border-radius: var(--oz-radius-md);
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all var(--oz-transition-fast);
+}
+
+.oz-payment-pill.oz-active {
+  border-color: var(--oz-primary);
+  background: var(--oz-primary-light);
+  color: var(--oz-primary);
+}
+
+/* --------------------------------------------------------------------------
+   11. BRENDLAR, FAQ VA SHARHLAR
+   -------------------------------------------------------------------------- */
+.oz-brands-section {
+  padding: 40px 0;
+  border-top: 1px solid var(--oz-border);
+}
+
+.oz-brands-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  opacity: 0.75;
+}
+
+.oz-brand-item {
+  font-family: var(--oz-font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #64748b;
+  transition: all var(--oz-transition-normal);
+}
+
+.oz-brand-item:hover {
+  color: var(--oz-primary);
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+/* FAQ Akkordeon */
+.oz-faq-section {
+  padding: 50px 0;
+}
+
+.oz-faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.oz-faq-card {
+  background: var(--oz-surface);
+  border: 1px solid var(--oz-border);
+  border-radius: var(--oz-radius-lg);
+  overflow: hidden;
+  transition: border var(--oz-transition-fast);
+}
+
+.oz-faq-question {
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1.05rem;
+}
+
+.oz-faq-answer {
+  padding: 0 24px 20px;
+  color: var(--oz-text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   12. TOAST NOTIFICATION (BILDIRISHNOMALAR)
+   -------------------------------------------------------------------------- */
+.oz-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.oz-toast {
+  pointer-events: auto;
+  background: var(--oz-secondary);
+  color: white;
+  padding: 14px 20px;
+  border-radius: var(--oz-radius-lg);
+  box-shadow: var(--oz-shadow-xl);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: oz-slide-in-up 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid var(--oz-primary);
+}
+
+.oz-toast.oz-toast-success {
+  border-left-color: var(--oz-success);
+}
+
+.oz-toast.oz-toast-warning {
+  border-left-color: var(--oz-warning);
+}
+
+/* --------------------------------------------------------------------------
+   13. FOOTER (KOMPANIYA, XIZMATLAR, TO'LOV, IJTIMOIY TARMOQLAR)
+   -------------------------------------------------------------------------- */
+.oz-footer {
+  background: var(--oz-secondary);
+  color: #94a3b8;
+  padding: 60px 0 24px;
+  margin-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.oz-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.oz-footer-brand p {
+  margin: 16px 0 20px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.oz-footer-title {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  font-family: var(--oz-font-display);
+}
+
+.oz-footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.oz-footer-links a:hover {
+  color: white;
+  padding-left: 4px;
+  transition: all var(--oz-transition-fast);
+}
+
+.oz-footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   14. ASOSIY KEYFRAME ANIMATSIYALARI
+   -------------------------------------------------------------------------- */
+@keyframes oz-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes oz-fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oz-slide-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oz-scale-bounce {
+  0% { transform: scale(0.6); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   15. RESPONSIVE MEDIA QUERIES (MOSLASHUVCHAN DIZAYN)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .oz-hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .oz-hero-sidecards {
+    flex-direction: row;
+  }
+  .oz-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .oz-footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .oz-quickview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .oz-topbar {
+    display: none;
+  }
+  .oz-nav-row {
+    flex-wrap: wrap;
+  }
+  .oz-search-box {
+    order: 3;
+    max-width: 100%;
+    width: 100%;
+  }
+  .oz-hero-slider {
+    height: 340px;
+  }
+  .oz-hero-title {
+    font-size: 1.8rem;
+  }
+  .oz-hero-content {
+    padding: 24px;
+  }
+  .oz-hero-sidecards {
+    flex-direction: column;
+  }
+  .oz-features-grid {
+    grid-template-columns: 1fr;
+  }
+  .oz-products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  .oz-footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .oz-drawer {
+    max-width: 100%;
+  }
+  .oz-card-footer {
+    grid-template-columns: 1fr;
+  }
+  .oz-quantity-stepper {
+    justify-content: center;
+  }
+}
+
