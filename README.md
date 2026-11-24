@@ -27,3 +27,4 @@ npm run dev
 # Ishlab chiqarish uchun build olish
 npm run build
 ```
+
